@@ -8,8 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
-return [
+/*return [
     '__pattern__' => [
         'name' => '\w+',
     ],
@@ -18,4 +17,37 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
 
-];
+];*/
+
+// 自定义路由
+use think\Route;
+// banner路由
+Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner');
+
+// Route::get('banner/:id', 'api/v1.Banner/getBanner');
+
+// 某一个theme主题路由
+Route::get('api/:version/theme/:id', 'api/:version.Theme/getComplexOne');
+// theme路由
+Route::get('api/:version/theme', 'api/:version.Theme/getSimpleList');
+
+// product路由
+// 最新商品列表
+Route::get('api/:version/product/recent', 'api/:version.Product/getRecent');
+// 获取分类的商品列表
+Route::get('api/:version/product/by-category', 'api/:version.Product/getAllInCategory');
+Route::get('api/:version/product/:id', 'api/:version.Product/getOne', [], ['id' => '\d+']);
+
+// category路由
+Route::get('api/:version/category', 'api/:version.Category/getAllCategories');
+// 地址
+Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');
+
+// order
+Route::post('api/:version/order', 'api/:version.Order/placeOrder');
+
+
+
+
+// token
+Route::post('api/:version/token/user', 'api/:version.Token/getToken');
