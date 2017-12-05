@@ -74,6 +74,13 @@ class Token
         return $uid;
     }
 
+    /**
+     * 需要用户和CMS管理员都可以访问的权限
+     *
+     * @return bool
+     * @throws ForbiddenException
+     * @throws TokenException
+     */
     public static function needPrimaryScope()
     {
         $scope = self::getCurrentTokenVar('scope');
@@ -89,4 +96,25 @@ class Token
         }
     }
 
+    /**
+     * 只有用户才可以访问的权限
+     *
+     * @return bool
+     * @throws ForbiddenException
+     * @throws TokenException
+     */
+    public static function needExclusiveScope()
+    {
+        $scope = self::getCurrentTokenVar('scope');
+
+        if ($scope) {
+            if ($scope >= ScopeEnum::USER && $scope < ScopeEnum::SUPER) {
+                return true;
+            } else {
+                throw new ForbiddenException();
+            }
+        } else {
+            throw new TokenException();
+        }
+    }
 }

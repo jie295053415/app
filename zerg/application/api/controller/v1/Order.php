@@ -9,31 +9,15 @@
 namespace app\api\controller\v1;
 
 
-use app\api\service\Token as TokenService;
-use app\api\service\TokenException;
-use app\extra\enum\ScopeEnum;
-use app\lib\exception\ForbiddenException;
+use app\api\controller\BaseController;
+
 
 class Order extends BaseController
 {
     protected $beforeActionList = [
-        'checkPrimaryScope' => ['only' => 'createOrUpdateAddress']
+        'checkExclusiveScope' => ['only' => 'placeOrder']
     ];
 
-    protected function checkExclusiveScope()
-    {
-        $scope = TokenService::getCurrentTokenVar('scope');
-
-        if ($scope) {
-            if ($scope >= ScopeEnum::USER && $scope < ScopeEnum::SUPER) {
-                return true;
-            } else {
-                throw new ForbiddenException();
-            }
-        } else {
-            throw new TokenException();
-        }
-    }
 
     // 用户在选择商品后, 向API提交包含它所选择商品的相关信息
     public function placeOrder()
