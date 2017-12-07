@@ -8,7 +8,9 @@
 
 namespace app\api\service;
 
-use app\api\model\Product as ProductModel;
+//use app\api\model\Product as ProductModel;
+use app\api\model\Product;
+
 class Order
 {
     // 订单的商品列表，也就是客户端传递过来的products参数
@@ -31,7 +33,15 @@ class Order
     // 根据订单信息查找真实的库存
     private function getProductsByOrder($oProducts)
     {
+        $oPIDs = [];
+        foreach ($oProducts as $item) {
+            array_push($oPIDs, $item['product_id']);
+        }
 
+        $products = Product::all($oPIDs)
+            ->visible(['id', 'price', 'stock', 'name', 'main_img_url'])
+            ->toArray();
+        return $products;
     }
 
 
