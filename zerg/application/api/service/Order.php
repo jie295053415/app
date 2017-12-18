@@ -43,6 +43,34 @@ class Order
 
     }
 
+    private function createOrder($snap)
+    {
+        $order = new \app\api\model\Order();
+
+
+        $order->create([
+            'user_id' => $this->uid,
+            'order_no' => $this->makeOrderNo(),
+            'total_price' => $snap['orderPrice'],
+            'total_count' => $snap['total_count'],
+            'snap_img' => $snap['snap_img'],
+            'snap_address' => $snap['snap_address'],
+            'snap_items' => json_encode($snap['pStatus']),
+        ]);
+
+
+    }
+
+    public function makeOrderNo()
+    {
+        $yCode = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+
+        $orderSn = $yCode[intval(date('Y') - 2017)] . strtoupper(dechex(date('m'))) .
+                   date('d') . substr(time(), -5) . substr(microtime(), 2, 5) .
+        sprintf('%02d', rand(0, 99));
+        return $orderSn;
+    }
+
 
     private function snapOrder($status)
     {
