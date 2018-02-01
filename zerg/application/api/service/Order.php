@@ -8,7 +8,8 @@
 
 namespace app\api\service;
 
-//use app\api\model\Product as ProductModel;
+
+use app\api\model\OrderProduct;
 use app\api\model\Product;
 use app\api\model\UserAddress;
 use app\lib\exception\OrderException;
@@ -41,16 +42,23 @@ class Order
         // 开始创建订单了
         $orderSnap = $this->snapOrder($status);
 
+        $order = $this->createOrder($orderSnap);
+
+        $order['pass'] = true;
+
+        return $order;
+
     }
 
     private function createOrder($snap)
     {
         $order = new \app\api\model\Order();
 
+        $orderNo = $this->makeOrderNo();
 
-        $order->create([
+        $order_info = $order->create([
             'user_id' => $this->uid,
-            'order_no' => $this->makeOrderNo(),
+            'order_no' => $orderNo,
             'total_price' => $snap['orderPrice'],
             'total_count' => $snap['total_count'],
             'snap_img' => $snap['snap_img'],
@@ -58,7 +66,21 @@ class Order
             'snap_items' => json_encode($snap['pStatus']),
         ]);
 
+        $order_id = $order_info->id;
 
+        foreach ($this->oProducts as &$p) {
+            $p['order_id'] = $order_id;
+        }
+
+        $orderProduct = new OrderProduct();
+
+        $orderProduct->saveall($this->oProducts);
+
+        return [
+            'order_no' => $orderNo,
+            'order_id' => $order_id,
+            'create_time' => $order_info->create_time,
+        ];
     }
 
     public function makeOrderNo()
@@ -93,6 +115,7 @@ class Order
             $snap ['snapName'] .= '等';
         }
 
+        return $snap;
     }
 
     private function getUserAddress()
