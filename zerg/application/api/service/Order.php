@@ -32,6 +32,7 @@ class Order
         $this->oProducts = $oProducts;
         $this->products = $this->getProductsByOrder($oProducts);
         $this->uid = $uid;
+
         $status = $this->getOrderStatus();
 
         if (!$status['pass']) {
