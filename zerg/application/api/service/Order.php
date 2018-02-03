@@ -40,7 +40,7 @@ class Order
             return $status;
         }
 
-        // 开始创建订单了
+        // 开始创建订单
         $orderSnap = $this->snapOrder($status);
 
         $order = $this->createOrder($orderSnap);
@@ -58,13 +58,13 @@ class Order
         $orderNo = $this->makeOrderNo();
 
         $order_info = $order->create([
-            'user_id' => $this->uid,
-            'order_no' => $orderNo,
-            'total_price' => $snap['orderPrice'],
-            'total_count' => $snap['total_count'],
-            'snap_img' => $snap['snap_img'],
+            'user_id'      => $this->uid,
+            'order_no'     => $orderNo,
+            'total_price'  => $snap['orderPrice'],
+            'total_count'  => $snap['total_count'],
+            'snap_img'     => $snap['snap_img'],
             'snap_address' => $snap['snap_address'],
-            'snap_items' => json_encode($snap['pStatus']),
+            'snap_items'   => json_encode($snap['pStatus']),
         ]);
 
         $order_id = $order_info->id;
@@ -78,8 +78,8 @@ class Order
         $orderProduct->saveall($this->oProducts);
 
         return [
-            'order_no' => $orderNo,
-            'order_id' => $order_id,
+            'order_no'    => $orderNo,
+            'order_id'    => $order_id,
             'create_time' => $order_info->create_time,
         ];
     }
@@ -89,8 +89,8 @@ class Order
         $yCode = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
         $orderSn = $yCode[intval(date('Y') - 2017)] . strtoupper(dechex(date('m'))) .
-                   date('d') . substr(time(), -5) . substr(microtime(), 2, 5) .
-        sprintf('%02d', rand(0, 99));
+            date('d') . substr(time(), -5) . substr(microtime(), 2, 5) .
+            sprintf('%02d', rand(0, 99));
         return $orderSn;
     }
 
