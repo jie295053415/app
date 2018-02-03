@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="20406fbc-e31f-43c0-853a-8ecbd0040290" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zerg/application/api/service/Order.php" afterPath="$PROJECT_DIR$/zerg/application/api/service/Order.php" />
-    </list>
+    <list default="true" id="20406fbc-e31f-43c0-853a-8ecbd0040290" name="Default" comment="" />
     <ignored path="app.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -433,12 +431,12 @@
       <workItem from="1517397986727" duration="280000" />
       <workItem from="1517494940563" duration="2015000" />
       <workItem from="1517590441607" duration="31000" />
-      <workItem from="1517672058965" duration="2185000" />
+      <workItem from="1517672058965" duration="2803000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="133684000" />
+    <option name="totallyTimeSpent" value="134302000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
