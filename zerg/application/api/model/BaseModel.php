@@ -6,6 +6,7 @@ use think\Model;
 
 class BaseModel extends Model
 {
+    protected $autoWriteTimestamp;
     //完善本地、远程图片url的完整性
     protected function prefixImgUrl($value, $data){
         $finalUrl = $value;

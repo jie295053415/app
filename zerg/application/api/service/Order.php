@@ -14,13 +14,14 @@ use app\api\model\Product;
 use app\api\model\UserAddress;
 use app\lib\exception\OrderException;
 use app\lib\exception\UserException;
+use think\Exception;
 
 class Order
 {
     // 订单的商品列表，也就是客户端传递过来的products参数
     protected $oProducts;
 
-    // 真是的商品信息（包括库存量）
+    // 真实的商品信息（包括库存量）
     protected $products;
 
     protected $uid;
@@ -53,35 +54,39 @@ class Order
 
     private function createOrder($snap)
     {
-        $order = new \app\api\model\Order();
+        try{
+            $order = new \app\api\model\Order();
 
-        $orderNo = $this->makeOrderNo();
+            $orderNo = $this->makeOrderNo();
 
-        $order_info = $order->create([
-            'user_id'      => $this->uid,
-            'order_no'     => $orderNo,
-            'total_price'  => $snap['orderPrice'],
-            'total_count'  => $snap['total_count'],
-            'snap_img'     => $snap['snap_img'],
-            'snap_address' => $snap['snap_address'],
-            'snap_items'   => json_encode($snap['pStatus']),
-        ]);
+            $order_info = $order->create([
+                'user_id'      => $this->uid,
+                'order_no'     => $orderNo,
+                'total_price'  => $snap['orderPrice'],
+                'total_count'  => $snap['total_count'],
+                'snap_img'     => $snap['snap_img'],
+                'snap_address' => $snap['snap_address'],
+                'snap_items'   => json_encode($snap['pStatus']),
+            ]);
 
-        $order_id = $order_info->id;
+            $order_id = $order_info->id;
 
-        foreach ($this->oProducts as &$p) {
-            $p['order_id'] = $order_id;
+            foreach ($this->oProducts as &$p) {
+                $p['order_id'] = $order_id;
+            }
+
+            $orderProduct = new OrderProduct();
+
+            $orderProduct->saveall($this->oProducts);
+
+            return [
+                'order_no'    => $orderNo,
+                'order_id'    => $order_id,
+                'create_time' => $order_info->create_time,
+            ];
+        } catch (Exception $ex) {
+            throw $ex;
         }
-
-        $orderProduct = new OrderProduct();
-
-        $orderProduct->saveall($this->oProducts);
-
-        return [
-            'order_no'    => $orderNo,
-            'order_id'    => $order_id,
-            'create_time' => $order_info->create_time,
-        ];
     }
 
     public function makeOrderNo()
@@ -93,7 +98,6 @@ class Order
             sprintf('%02d', rand(0, 99));
         return $orderSn;
     }
-
 
     private function snapOrder($status)
     {
