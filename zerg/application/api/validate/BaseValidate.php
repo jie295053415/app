@@ -48,6 +48,20 @@ class BaseValidate extends Validate
         }
     }
 
+    //验证传进来的ID是否是正整数
+    public function checkIDs($value){
+        $values = explode(',', $value);
+        if(empty($values)){
+            return false;
+        }
+        foreach ($values as $id){
+            if(!$this->isPostiveInterger($id)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * 验证是否为空
      *
