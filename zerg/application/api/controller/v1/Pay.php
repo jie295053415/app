@@ -21,7 +21,6 @@ class Pay extends BaseController
 	public function getPreOrder()
 	{
 		(new IDCollection)->gocheck();
-		// fixme 验证完参数后就检测商品库存
 		
 		
 	}
