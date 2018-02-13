@@ -118,4 +118,18 @@ class Token
             throw new TokenException();
         }
     }
+
+    public static function isValidOperate($checkedUID)
+    {
+        if (!$checkedUID) {
+            throw new Exception('传入的订单号不正确, 请检查');
+        }
+
+        $currentOperateUID = self::getCurrentUid();
+
+        if ($currentOperateUID === $checkedUID) {
+            return true;
+        }
+        return false;
+    }
 }

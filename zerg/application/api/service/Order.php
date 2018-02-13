@@ -103,6 +103,15 @@ class Order
         return $orderSn;
     }
 
+    public function checkOrderStock($orderID)
+    {
+        $this->oProducts = OrderProduct::where('order_id', $orderID)->select();
+
+        $this->products = $this->getProductsByOrder($this->oProducts);
+
+        return $this->getOrderStatus();
+    }
+
     private function snapOrder($status)
     {
         $snap = [
