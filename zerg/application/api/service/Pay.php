@@ -15,6 +15,7 @@ use think\Exception;
 use app\api\model\Order as OrderModel;
 use app\api\service\Order as OrderService;
 use think\Loader;
+use think\Log;
 
 // extend/WxPay/WxPay.Api.php
 Loader::import('WxPay.WxPay', EXTEND_PATH, '.Api.php');
@@ -47,10 +48,11 @@ class Pay
             return $status;
         }
 
+        return $this->makeWxPreOrder($status['orderPice']);
 
     }
 
-    private function makeWxPreOrder()
+    private function makeWxPreOrder($totalPrice)
     {
         // openid
         $openid = Token::getCurrentTokenVar('openid');
@@ -60,11 +62,31 @@ class Pay
         }
 
         $wxOrderData = new \WxPayUnifiedOrder();
+        $wxOrderData->setOut_trade_no($this->orderID);
+        $wxOrderData->setTrade_type('JSAPI');
+        $wxOrderData->setTotal_fee($totalPrice * 100);
+        $wxOrderData->setBody('kitlo');
+        $wxOrderData->setOpenid($openid);
+        $wxOrderData->setNotify_url('');
+        return $this->getPaySignature($wxOrderData);
+    }
+
+    public function getPaySignature($wxOrderData)
+    {
+        $wxOrder = \WxPayApi::unifiedOrder($wxOrderData);
+
+        if ($wxOrder['return_code'] != 'SUCCESS' || $wxOrder['result_code'] != 'SUCCESS') {
+            Log::record($wxOrder, 'error');
+            Log::record('获取预支付订单失败', 'error');
+        }
+
+        return null;
     }
 
     private function checkOrderValid()
     {
-        $order = OrderModel::find($this->orderID);
+        $order = OrderModel::where('id', $this->orderID)
+            ->find();
 
         if (!$order) {
             throw new OrderException();
