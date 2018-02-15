@@ -62,12 +62,12 @@ class Pay
         }
 
         $wxOrderData = new \WxPayUnifiedOrder();
-        $wxOrderData->setOut_trade_no($this->orderID);
-        $wxOrderData->setTrade_type('JSAPI');
-        $wxOrderData->setTotal_fee($totalPrice * 100);
-        $wxOrderData->setBody('kitlo');
-        $wxOrderData->setOpenid($openid);
-        $wxOrderData->setNotify_url('');
+        $wxOrderData->SetOut_trade_no($this->orderID);
+        $wxOrderData->SetTrade_type('JSAPI');
+        $wxOrderData->SetTotal_fee($totalPrice * 100);
+        $wxOrderData->SetBody('kitlo');
+        $wxOrderData->SetOpenid($openid);
+        $wxOrderData->SetNotify_url('z.cn');
         return $this->getPaySignature($wxOrderData);
     }
 
@@ -80,7 +80,42 @@ class Pay
             Log::record('获取预支付订单失败', 'error');
         }
 
-        return null;
+        // prepay_id
+        $this->recordPreOrder($wxOrder);
+
+        $signature = $this->sign($wxOrder);
+
+        return $signature;
+    }
+
+    private function sign($wxOrder)
+    {
+        $rand = md5(time() . mt_rand(0, 1000));
+        $jsApiPayData = new \WxPayJsApiPay();
+        $jsApiPayData->SetAppid(config('wx.app_id'));
+        $jsApiPayData->SetTimeStamp((string) time());
+        $jsApiPayData->SetNonceStr($rand);
+        $jsApiPayData->SetPackage('prepay_id=' . $wxOrder['prepay_id']);
+        $jsApiPayData->SetSignType('MD5');
+
+        $sign = $jsApiPayData->MakeSign();
+
+        $rawValues = $jsApiPayData->GetValues();
+        $rawValues['paySign'] = $sign;
+        unset($rawValues['appId']);
+
+        return $rawValues;
+    }
+
+    private function recordPreOrder($wxOrder)
+    {
+        $order = OrderModel::where('id', $this->orderID)->find();
+        if (!$order) {
+            throw new OrderException();
+        }
+        $order->update([
+            'prepay_id' => $wxOrder['prepay_id']
+        ]);
     }
 
     private function checkOrderValid()

@@ -24,6 +24,7 @@ class Pay extends BaseController
 		(new IDCollection)->gocheck();
 		
 		$pay = new PayService($id);
-		$pay->pay();
+
+		return $pay->pay();
 	}
 }
