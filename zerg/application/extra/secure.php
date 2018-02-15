@@ -7,5 +7,7 @@
  */
 
 return [
-    'token_salt' => 'httpPTTH9527kitlo520janeny'
+    'token_salt'   => 'h16t88tpPTTH9527kitlo520janeny',
+    'pay_back_url' => 'http://z.cn/api/v1/pay/notify',
+    // Ngrok
 ];

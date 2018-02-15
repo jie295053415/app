@@ -67,7 +67,7 @@ class Pay
         $wxOrderData->SetTotal_fee($totalPrice * 100);
         $wxOrderData->SetBody('kitlo');
         $wxOrderData->SetOpenid($openid);
-        $wxOrderData->SetNotify_url('z.cn');
+        $wxOrderData->SetNotify_url(config('secure.pay_back_url'));
         return $this->getPaySignature($wxOrderData);
     }
 
