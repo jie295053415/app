@@ -1,5 +1,0 @@
-<!--home.wxml-->
-<view>
-  <swiper></swiper>
-  <view>调试</view>
-</view>
