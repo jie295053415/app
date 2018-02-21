@@ -1,0 +1,6 @@
+<!--home.wxml-->
+<view>
+	<swiper></swiper>
+	<view></view>
+
+</view>
