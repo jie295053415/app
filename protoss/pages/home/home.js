@@ -17,8 +17,9 @@ Page({
   },
 
   _loadData:function(){
-    var id, data;
-    id = 1;
-    data = home.getBannerData(id);
+    var id = 1;
+    var data = home.getBannerData(id, (res)=>{
+      console.log(res);
+    });
   }
 })
