@@ -1,6 +1,6 @@
-<!--home.wxml-->
-<view>
-	<swiper></swiper>
-	<view></view>
+<!--pages/home/home.wxml-->
 
+<view>
+  <swiper>banner</swiper>
+  <view>测试</view>
 </view>
