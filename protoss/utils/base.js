@@ -8,9 +8,11 @@ class Base {
 
   request (params) {
     var url = this.baseRequestUrl + params.url;
-    if (!params.type) {
-      params.type = 'GET';
-    }
+
+    params.type ? params.type : 'GET';
+    // if (!params.type) {
+    //   params.type = 'GET';
+    // }
 
     wx.request({
       url : url,
@@ -21,7 +23,7 @@ class Base {
         'token' : wx.getStorageSync('token')
       },
       success : function (res) {
-        params.sCallBack&&params.sCallBack(res);
+        params.sCallBack && params.sCallBack(res.data);
       },
       fail : function (err) {
         console.log(err);

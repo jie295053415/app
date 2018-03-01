@@ -10,10 +10,10 @@ class Home extends Base {
     var params = {
       url : 'banner/' +id,
       sCallBack : function (res) {
-        callback && callback(res);
+        callBack && callBack(res.items);
       }
     }
-    
+
     this.request(params);
 
   //   wx.request({
