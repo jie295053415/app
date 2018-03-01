@@ -22,10 +22,13 @@ class Base {
       success:function (res) {
         params.sCallBack&&params.sCallBack(res);
       },
-      fail: function (res) {
-        console.log(res);
+      fail: function (err) {
+        console.log(err);
 
       } 
     })
   }
 }
+
+
+export {Base};
