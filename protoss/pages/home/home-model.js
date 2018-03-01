@@ -13,6 +13,7 @@ class Home extends Base {
         callback && callback(res);
       }
     }
+    
     this.request(params);
 
   //   wx.request({

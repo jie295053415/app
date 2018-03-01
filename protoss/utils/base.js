@@ -5,6 +5,7 @@ class Base {
   constructor() {
     this.baseRequestUrl = Config.restUrl;
   }
+
   request (params) {
     var url = this.baseRequestUrl + params.url;
     if (!params.type) {
@@ -14,17 +15,16 @@ class Base {
     wx.request({
       url : url,
       data : params.data,
-      method: params.type,
-      header: {
+      method : params.type,
+      header : {
         'content-type' : 'application/json',
         'token' : wx.getStorageSync('token')
       },
-      success:function (res) {
+      success : function (res) {
         params.sCallBack&&params.sCallBack(res);
       },
-      fail: function (err) {
+      fail : function (err) {
         console.log(err);
-
       } 
     })
   }
