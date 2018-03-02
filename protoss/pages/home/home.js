@@ -20,6 +20,12 @@ Page({
     var id = 1;
     var data = home.getBannerData(id, (res)=>{
       console.log(res);
+
+      // data bind
+      this.setData({
+        'bannerArr' : res
+      });
+
     });
   }, 
   
