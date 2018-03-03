@@ -6,26 +6,38 @@ class Home extends Base {
     super();
   }
 
-  getBannerData (id, callBack) {
+  /** banner **/
+  getBannerData (id, callback) {
     var params = {
       url : 'banner/' +id,
-      sCallBack : function (res) {
-        callBack && callBack(res.items);
+      sCallback : function (res) {
+        callback && callback(res.items);
       }
     }
-
     this.request(params);
-
-  //   wx.request({
-  //     url: 'http://z.cn/api/v1/banner' + id,
-  //     method : 'GET',
-  //     success : function (res) {
-  //       // return res
-  //       callBack(res);
-  //     }
-  //   })
   }
 
+  /** 首页主题 **/
+  getthemeData(callback) {
+    var param = {
+      url: 'theme?ids=1,2,3',
+      sCallback: function (data) {
+        callback && callback(data);
+      }
+    }
+    this.request(param);
+  }
+
+  /** 商品 **/
+  getProductsData(callback) {
+    var param = {
+      url: 'product/recent',
+      sCallback: function (data) {
+        callback && callback(data);
+      }
+    }
+    this.request(param);
+  }
 }
 
 export {Home};

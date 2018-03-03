@@ -17,19 +17,25 @@ Page({
   },
 
   _loadData:function(){
+    var that = this;
     var id = 1;
-    var data = home.getBannerData(id, (res)=>{
-      console.log(res);
-
-      // data bind
-      this.setData({
+    home.getBannerData(id, (res)=>{
+       // data bind
+      that.setData({
         'bannerArr' : res
       });
+    });
 
+    home.getThemeData((res)=>{
+      that.setData({
+        'themeArr' : res
+      });
+    });
+
+    home.getProductsData((data)=>{
+      that.setData({
+        productsArr : data
+      });
     });
   }, 
-  
-  callBack : function (res) {
-    console.log(res);
-  }
 })

@@ -1,5 +1,7 @@
 <!--pages/home/home.wxml-->
 
+<import src="../tpls/proctsts/products-tpl.wxml" />
+
 <view>
   <swiper indicator-dots="true" autoplay="true" class="swiper">
     <block wx:for="{{bannerArr}}">
@@ -8,5 +10,28 @@
       </swiper-item>
     </block>
   </swiper>
-  <view>测试</view>
+
+  <view class="home-main">
+
+    <view class="home-main-theme">
+      <view class="home-main-header">精选主题</view>
+      <view class="theme-box">
+        <block wx:for="{{themeArr}}">
+          <view wx:if="{{index=2}}" class="theme-item big">
+            <image src="{{item.topic_img.url}}"></image>
+          </view>
+          <view wx:else class="theme-item">
+            <image src="{{item.topic_img.url}}"></image>
+          </view>
+          <!-- <image src="{{item.topic_img.url}}"></image> -->
+        </block>
+      </view>
+    </view>
+
+    <view class="home-main-products">
+      <view class="home-main-header">最近新品</view>
+      <template is="products" data="{{products:productsArr}}"></template>
+    </view>
+
+  </view>
 </view>
