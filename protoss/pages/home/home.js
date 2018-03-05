@@ -38,4 +38,11 @@ Page({
       });
     });
   }, 
+
+  onProductsItemTap : function (event) {
+    var id = null;
+    wx.navigateTo({
+      url: '../product/product?id=' + id,
+    })
+  }
 })
