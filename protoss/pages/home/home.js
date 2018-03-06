@@ -40,7 +40,7 @@ Page({
   }, 
 
   onProductsItemTap : function (event) {
-    var id = null;
+    var id = home.getDataSet(event, 'id');
     wx.navigateTo({
       url: '../product/product?id=' + id,
     })
