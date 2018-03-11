@@ -44,5 +44,13 @@ Page({
     wx.navigateTo({
       url: '../product/product?id=' + id,
     })
-  }
+  },
+onThemesItemTap : function (event) {
+  var id = home.getdataSet(event, 'id');
+  var id = home.getdataSet(event, 'name');
+  wx.navigateTo({
+    url: '../theme/theme?id=' + id + '&name=' + name,
+  })
+} 
+
 })
